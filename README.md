@@ -1,2 +1,2 @@
 # luke_mcewen_projects
-Personal projects I have done over the years
+Personal projects I have done
