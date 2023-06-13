@@ -53,7 +53,7 @@ class MainWindow(wid.QMainWindow):
     
     def get_questions(self):
         def scrape(url, fst):
-            source = requests.get(url).text
+            source = requests.get(url, verify=False).text
             soup = BeautifulSoup(source, "html.parser")
             contents = soup.find_all(class_= "sfContentBlock")
             questions = contents[0].find_all("p")
@@ -119,7 +119,6 @@ class MainWindow(wid.QMainWindow):
     def set_question(self):
         rand = randint(0, len(self.question_lst)-1)
         self.label.setText(self.question_lst[rand])
-        print(self.question_lst[rand])
         if "(Select THREE)" in self.question_lst[rand] or "Which of the following characteristics BEST" in self.question_lst[rand]:
             self.buttonE.show()
         else:
