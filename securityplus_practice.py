@@ -8,17 +8,6 @@ class MainWindow(wid.QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Security+ Practice Questions")
-        self.buttonE = wid.QPushButton("E")
-        self.buttonE.clicked.connect(lambda: self.button_pressed(self.buttonE.text()))
-        
-        self.score = 0
-        self.dic = {}
-        self.get_questions()
-        self.question_lst = self.create_question_list()
-
-        self.label = wid.QLabel()
-        self.set_question()
-
         self.buttonA = wid.QPushButton("A")
         self.buttonA.clicked.connect(lambda: self.button_pressed(self.buttonA.text()))
 
@@ -31,20 +20,63 @@ class MainWindow(wid.QMainWindow):
         self.buttonD = wid.QPushButton("D")
         self.buttonD.clicked.connect(lambda: self.button_pressed(self.buttonD.text()))
 
+        self.buttonE = wid.QPushButton("E")
+        self.buttonE.clicked.connect(lambda: self.button_pressed(self.buttonE.text()))
+
+        self.checkbox_lst = []
+        
+        self.checkboxA = wid.QCheckBox("A")
+        self.checkbox_lst.append(self.checkboxA)
+        self.checkboxB = wid.QCheckBox("B")
+        self.checkbox_lst.append(self.checkboxB)
+        self.checkboxC = wid.QCheckBox("C")
+        self.checkbox_lst.append(self.checkboxC)
+        self.checkboxD = wid.QCheckBox("D")
+        self.checkbox_lst.append(self.checkboxD)
+        self.checkboxE = wid.QCheckBox("E")
+        self.checkbox_lst.append(self.checkboxE)
+        self.checkboxF = wid.QCheckBox("F")
+        self.checkbox_lst.append(self.checkboxF)
+        self.confirm = wid.QPushButton("Confirm Selection")
+        self.confirm.clicked.connect(lambda: self.button_pressed(True))
+
+        button_hbox = wid.QHBoxLayout()
+        button_hbox.addWidget(self.buttonA)
+        button_hbox.addWidget(self.buttonB)
+        button_hbox.addWidget(self.buttonC)
+        button_hbox.addWidget(self.buttonD)
+        button_hbox.addWidget(self.buttonE)
+
+        checkbox_hbox = wid.QHBoxLayout()
+        checkbox_hbox.addWidget(self.checkboxA)
+        checkbox_hbox.addWidget(self.checkboxB)
+        checkbox_hbox.addWidget(self.checkboxC)
+        checkbox_hbox.addWidget(self.checkboxD)
+        checkbox_hbox.addWidget(self.checkboxE)
+        checkbox_hbox.addWidget(self.checkboxF)
+        checkbox_hbox.addWidget(self.confirm)
+
+        self.buttonFrame = wid.QFrame()
+        self.buttonFrame.setLayout(button_hbox)
+        self.checkboxFrame = wid.QFrame()
+        self.checkboxFrame.setLayout(checkbox_hbox)
+        
+        self.score = 0
+        self.dic = {}
+        self.get_questions()
+        self.question_lst = self.create_question_list()
+
+        self.label = wid.QLabel()
+        self.set_question()
+
         self.score_label = wid.QLabel(f"Score={self.score}")
 
         self.correct_label = wid.QLabel()
 
-        hbox = wid.QHBoxLayout()
-        hbox.addWidget(self.buttonA)
-        hbox.addWidget(self.buttonB)
-        hbox.addWidget(self.buttonC)
-        hbox.addWidget(self.buttonD)
-        hbox.addWidget(self.buttonE)
-
         vbox = wid.QVBoxLayout()
         vbox.addWidget(self.label)
-        vbox.addLayout(hbox)
+        vbox.addWidget(self.buttonFrame)
+        vbox.addWidget(self.checkboxFrame)
         vbox.addWidget(self.score_label)
         vbox.addWidget(self.correct_label)
         container = wid.QWidget()
@@ -88,14 +120,21 @@ class MainWindow(wid.QMainWindow):
         return lst
     
     def check(self, question, answer):
-        if answer in self.dic[question]:
+        if self.dic[question] == answer:
             self.score += 1
             return True
         return False
     
     def button_pressed(self, button_text):
+        if button_text == True:
+            answers = []
+            for i in self.checkbox_lst:
+                if i.isChecked():
+                    answers.append(i.text())
+        else:
+            answers = button_text
         try:
-            if self.check(self.label.text(), button_text):
+            if self.check(self.label.text(), answers):
                 self.correct_label.setText("Correct!")
             else:
                 self.correct_label.setText(f"That was incorrect :(\nThe correct answer was {self.dic[self.label.text()]}")
@@ -105,6 +144,8 @@ class MainWindow(wid.QMainWindow):
             self.set_question()
             self.score_label.setText(f"Score={self.score}")
         else:
+            self.buttonFrame.show()
+            self.checkboxFrame.hide()
             self.label.setText(f"You got {self.score}/13")
             self.score_label.setText("")
             self.buttonA.setText("")
@@ -115,14 +156,22 @@ class MainWindow(wid.QMainWindow):
             self.buttonC.clicked.connect(lambda: exit())
             self.buttonD.setText("")
             self.buttonD.clicked.connect(lambda: exit())
+            self.buttonE.setText("")
+            self.buttonE.clicked.connect(lambda: exit())
 
     def set_question(self):
         rand = randint(0, len(self.question_lst)-1)
         self.label.setText(self.question_lst[rand])
-        if "(Select THREE)" in self.question_lst[rand] or "Which of the following characteristics BEST" in self.question_lst[rand]:
-            self.buttonE.show()
+        if "Select THREE" in self.question_lst[rand]:
+            self.buttonFrame.hide()
+            self.checkboxFrame.show()
         else:
-            self.buttonE.hide()
+            self.buttonFrame.show()
+            self.checkboxFrame.hide()
+            if "Which of the following characteristics BEST" in self.question_lst[rand]:
+                self.buttonE.show()
+            else:
+                self.buttonE.hide()
         self.question_lst.remove(self.question_lst[rand])
 
 
