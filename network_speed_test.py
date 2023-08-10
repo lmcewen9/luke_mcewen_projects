@@ -1,4 +1,3 @@
-#!/Library/Frameworks/Python.framework/Versions/3.9/bin/python3
 import speedtest
 from threading import Thread
 import time
