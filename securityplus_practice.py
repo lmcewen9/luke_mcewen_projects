@@ -85,7 +85,7 @@ class MainWindow(wid.QMainWindow):
     
     def get_questions(self):
         def scrape(url, fst):
-            source = requests.get(url, verify=False).text
+            source = requests.get(url).text
             soup = BeautifulSoup(source, "html.parser")
             contents = soup.find_all(class_= "sfContentBlock")
             questions = contents[0].find_all("p")
