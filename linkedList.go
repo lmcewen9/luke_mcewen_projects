@@ -33,6 +33,18 @@ func (list *LinkedList) Append(item int) {
 
 }
 
+func (list *LinkedList) Delete(item int) {
+	tmp := list.head
+	if list.size == 0 {
+		return
+	}
+	for tmp.next.value != item {
+		tmp = tmp.next
+	}
+	tmp.next = tmp.next.next
+	list.size -= 1
+}
+
 func (list *LinkedList) TextOutput() string {
 	tmp := list.head
 	var ret string = "["
