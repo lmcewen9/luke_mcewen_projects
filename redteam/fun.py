@@ -54,6 +54,8 @@ def main():
                         s.send(str.encode("\n" + output_str))
             except Exception as _:
                     continue
+    except OSError as _:
+        pass
     except KeyboardInterrupt:
         s.close()
         sys.exit()
