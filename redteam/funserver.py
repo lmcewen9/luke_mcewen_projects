@@ -91,13 +91,13 @@ class FunServer:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="FunServer Net Tool", formatter_class=argparse.RawDescriptionHelpFormatter, epilog=textwrap.dedent('''Example:
-                                                                                                                            funserver.py -t 192.168.1.13 -p 9999 -l -c # command shell
-                                                                                                                            funserver.py -t 192.168.1.13 -p 9999 -l -u=test.txt # upload file
-                                                                                                                            funserver.py -t 192.168.1.13 -p 9999 -l -e=\"cat /etc/passwd\" # execute command
-                                                                                                                            echo 'ABC' | ./funserver.py -t 192.168.1.13 -p 135 # echo text to server port 135
-                                                                                                                                                    
-                                                                                                                            funserver.py -t 192.168.1.13 -p 9999 # connect to server
-                                                                                                                        '''))
+funserver.py -t 192.168.1.13 -p 9999 -l -c # command shell
+funserver.py -t 192.168.1.13 -p 9999 -l -u=test.txt # upload file
+funserver.py -t 192.168.1.13 -p 9999 -l -e=\"cat /etc/passwd\" # execute command
+echo 'ABC' | ./funserver.py -t 192.168.1.13 -p 135 # echo text to server port 135                                                                                                                                                   
+funserver.py -t 192.168.1.13 -p 9999 # connect to server
+'''))
+    
     parser.add_argument('-c', '--command', action='store_true', help='command shell')
     parser.add_argument('-e', '--execute', help='execute specific command')
     parser.add_argument('-l', '--listen', action='store_true', help='listen')
