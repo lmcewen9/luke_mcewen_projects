@@ -27,7 +27,14 @@ class C2Server:
     def handle_client(self, client, addr):
         while True:
             try:
-                print(client.recv(1024).decode())
+                buf = b''
+                while True:
+                    data = client.recv(4096)
+                    if data:
+                        buf += data
+                    else:
+                        break
+                print(buf)
                 command = input()
                 if command.lower().strip() == "switch":
                     with self.lock:
