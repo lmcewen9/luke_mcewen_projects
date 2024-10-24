@@ -20,7 +20,7 @@ class C2Server:
             print(f"[*] Connection establisted from {addr}")
 
             with self.lock:
-                self.clients[addr] = client
+                self.clients[addr.index(0)] = client
                 client_thread = threading.Thread(target=self.handle_client, args=(client, addr))
                 client_thread.start()
     
@@ -37,7 +37,7 @@ class C2Server:
             except Exception:
                 print(f"[*] Connection lost with {addr}")
                 with self.lock:
-                    del self.clients[addr]
+                    del self.clients[addr.index(0)]
                 break
     
     def switch_client(self):
