@@ -20,7 +20,7 @@ class C2Server:
             print(f"[*] Connection establisted from {addr}")
 
             with self.lock:
-                self.clients[addr.index(0)] = client
+                self.clients[addr] = client
                 client_thread = threading.Thread(target=self.handle_client, args=(client, addr))
                 client_thread.start()
     
