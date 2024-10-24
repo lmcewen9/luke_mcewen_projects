@@ -37,7 +37,7 @@ class C2Server:
             except Exception:
                 print(f"[*] Connection lost with {addr}")
                 with self.lock:
-                    del self.clients[addr.index(0)]
+                    del self.clients[addr]
                 break
     
     def switch_client(self):
